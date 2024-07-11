@@ -4,10 +4,10 @@ from django.http import HttpResponse
 # Create your views here.
 
 def home(request):
-    return HttpResponse("Home")
+    return render(request, "home.html")
 
 def ingreso(request):
-    return HttpResponse("Ingreso")
+    return render(request, "ingreso.html")
 
 def listado(request):
-    return HttpResponse("Listado")
+    return render(request, "listado.html")
