@@ -7,7 +7,7 @@
     <title>Alumnos-Cursos</title>
     {% tailwind_css %}
 </head>
-<body class="font-serif">
+<body class="font-serif flex flex-col h-screen">
     <header>
         <nav>
             <ul
@@ -38,9 +38,14 @@
         </nav>
     </header>
     <main
-        class="max-w-screen-lg mx-auto"
+        class="flex-grow"
     >
-        {% block content %}{% endblock %}
+        <div
+            class="max-w-screen-lg mx-auto p-2"
+        >
+            {% block content %}{% endblock %}
+        </div>
+        
     </main>
     <footer class="text-center font-bold bg-blue-200">Examen de tópicos de base de datos 2024</footer>
     <script>

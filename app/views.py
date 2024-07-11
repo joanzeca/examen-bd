@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse
 from .models import Alumno
 from django.core.serializers import serialize
+from .forms import AlumnoForm
 
 # Create your views here.
 
@@ -9,7 +10,15 @@ def home(request):
     return render(request, "home.html")
 
 def ingreso(request):
-    return render(request, "ingreso.html")
+    if request.method == 'POST':
+        form = AlumnoForm(request.POST)
+        if form.is_valid():
+            form.save()  # Guarda el objeto Alumno en la base de datos
+            return redirect('ingreso')  # Redirige a alguna página de éxito o a la lista de alumnos
+    else:
+        form = AlumnoForm()
+    
+    return render(request, "ingreso.html", {'form': form})
 
 def listado(request):
     try:
