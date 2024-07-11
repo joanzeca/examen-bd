@@ -7,7 +7,7 @@
     <title>Alumnos-Cursos</title>
     {% tailwind_css %}
 </head>
-<body>
+<body class="font-serif">
     <header>
         <nav>
             <ul
@@ -42,6 +42,108 @@
     >
         {% block content %}{% endblock %}
     </main>
-    <footer>Examen de tópicos de base de datos 2024</footer>
+    <footer class="text-center font-bold bg-blue-200">Examen de tópicos de base de datos 2024</footer>
+    <script>
+        alumnos = []
+        const lista_alumnos = document.querySelectorAll('#lista-alumnos li');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://127.0.0.1:8000/api/listado/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alumnos = data;
+                    if(data.length === 0){
+                        const mensaje_rojo = document.getElementById("mensaje-rojo");
+                        const mensaje_amarillo = document.getElementById("mensaje-amarillo");
+                        mensaje_amarillo.classList.add("hidden");
+                        mensaje_rojo.classList.remove("hidden");
+                    }
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        });
+
+        lista_alumnos.forEach(item => {
+            item.addEventListener('click', () => {
+                const alumno = alumnos.find(alumno => alumno.nombre === item.textContent);
+                const mensaje_amarillo = document.getElementById("mensaje-amarillo");
+                const mensaje_verde = document.getElementById("mensaje-verde");
+                mensaje_amarillo.classList.add("hidden");
+                mensaje_verde.classList.remove("hidden");
+
+                const span = mensaje_verde.querySelector('span');
+                span.textContent = `${item.textContent}`;
+
+                const info_alumnos = document.getElementById("info-alumno");
+
+                const table_aux = info_alumnos.querySelector("table");
+
+                if(table_aux){
+                    table_aux.remove();
+                }
+
+                // Crear elementos de la tabla
+                const table = document.createElement('table');
+                table.classList.add('border', 'border-collapse', 'border-gray-200');
+
+                // Crear cabecera (thead)
+                const thead = document.createElement('thead');
+                const headRow = document.createElement('tr');
+                const headCell = document.createElement('th');
+                headCell.setAttribute('colspan', '2');
+                headCell.classList.add('border-b-2');
+                headCell.textContent = "Alumno";
+                headRow.appendChild(headCell);
+                thead.appendChild(headRow);
+                table.appendChild(thead);
+
+                // Crear cuerpo de la tabla (tbody)
+                const tbody = document.createElement('tbody');
+                
+                
+
+                // Datos del alumno
+                const data = {
+                    'Nombre': item.textContent,
+                    'Curso': alumno.curso,
+                    'Nota 1': alumno.nota1,
+                    'Nota 2': alumno.nota2,
+                    'Promedio': alumno.promedio,
+                    'Condición': alumno.condicion,
+                    'Fecha de registro': alumno.fecha_reg
+                };
+
+                // Crear filas con datos
+                Object.keys(data).forEach(key => {
+                    const row = document.createElement('tr');
+                    const cell1 = document.createElement('td');
+                    const cell2 = document.createElement('td');
+
+                    cell1.innerHTML = `<strong>${key}</strong>`;
+                    cell2.textContent = data[key];
+
+                    row.appendChild(cell1);
+                    row.appendChild(cell2);
+
+                    tbody.appendChild(row);
+                });
+
+                table.appendChild(tbody);
+
+                info_alumnos.appendChild(table);
+
+
+
+            });
+        });
+        
+
+    </script>
 </body>
 </html>
