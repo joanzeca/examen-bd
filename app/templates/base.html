@@ -10,14 +10,36 @@
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="{%url 'home'%}">Home</a></li>
-                <li><a href="{%url 'ingreso'%}">Ingreso</a></li>
-                <li><a href="{%url 'listado'%}">Listado</a></li>
+            <ul
+                class="flex justify-center gap-20 bg-blue-200"
+            >
+                <li>
+                    <a
+                        href="{%url 'home'%}"
+                        class="inline-block py-2 px-8 font-bold hover:bg-blue-300"   
+                    >Home
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="{%url 'ingreso'%}"
+                        class="inline-block p-2 px-8 font-bold hover:bg-blue-300"   
+                    >Ingreso
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="{%url 'listado'%}"
+                        class="inline-block p-2 px-8 font-bold hover:bg-blue-300"   
+                    >Listado
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
-    <main>
+    <main
+        class="max-w-screen-lg mx-auto"
+    >
         {% block content %}{% endblock %}
     </main>
     <footer>Examen de tópicos de base de datos 2024</footer>

@@ -1,4 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Listado</h1>
+    <h1>Listado de Alumnos</h1>
+        {% if alumnos %}
+            <ul>
+                {% for alumno in alumnos %}
+                    <li
+                        class="cursor-pointer inline-block"
+                    >{{alumno}}</li>
+                {% endfor %}
+            </ul>
+        {%else%}
+            <p>No hay alumnos</p>
+    {% endif %}
 {% endblock %}
